@@ -1,17 +1,9 @@
-# DHT22 / AM2302 cpp library for ESP32 (ESP-IDF)
+# DHT11 cpp library for ESP32 (ESP-IDF)
 
-This is an ESP32 cpp (esp-idf) library for the DHT22 low cost temperature/humidity sensors.
-
-Jun 2017: Ricardo Timmermann, new for DHT22. 
-
-This lib is the cpp version of one in the DHT22 repo.
-
-*Running DHT22*
-
-Create folder called DTH22. In this folder run:
+This is an ESP32 cpp (esp-idf) library for the DHT11 low cost temperature/humidity sensors.
 
 ```
-$ git clone https://github.com/gosouth/DHT22-cpp.git
+$ git clone https://github.com/collindever/DHT22-cpp.git
 
 $ make menuconfig and make sure to set Component config->LWIP->recv_bufsize
 $ make
