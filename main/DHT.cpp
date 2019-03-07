@@ -106,27 +106,20 @@ int DHT::getSignalLevel( int usTimeOut, bool state )
 
 /*----------------------------------------------------------------------------
 ;
-;	read DHT22 sensor
+;	read DHT11 sensor
 
-	copy/paste from AM2302/DHT22 Docu:
-	DATA: Hum = 16 bits, Temp = 16 Bits, check-sum = 8 Bits
-	Example: MCU has received 40 bits data from AM2302 as
-	0000 0010 1000 1100 0000 0001 0101 1111 1110 1110
-	16 bits RH data + 16 bits T data + check sum
-
-	1) we convert 16 bits RH data from binary system to decimal system, 0000 0010 1000 1100 → 652
-	Binary system Decimal system: RH=652/10=65.2%RH
-	2) we convert 16 bits T data from binary system to decimal system, 0000 0001 0101 1111 → 351
-	Binary system Decimal system: T=351/10=35.1°C
-	When highest bit of temperature is 1, it means the temperature is below 0 degree Celsius.
-	Example: 1000 0000 0110 0101, T= minus 10.1°C: 16 bits T data
-	3) Check Sum=0000 0010+1000 1100+0000 0001+0101 1111=1110 1110 Check-sum=the last 8 bits of Sum=11101110
+	copy/paste from DHT11 Datasheet:
+	Data  consists  of decimal  and  integral  parts.  
+	A  complete  data  transmission  is 40bit,  and  the sensor sends higher data bitfirst. 
+    Data format:8bit integral RH data + 8bit decimal RH data + 8bit integral T data + 8bit decimal T data + 8bit check sum
+	If the data transmission is right,the check-sum should be the last 8bit of 
+	"8bit integral RH data+8bit decimal RHdata+8bit integral T data+8bit decimal T data".
 
 	Signal & Timings:
 	The interval of whole process must be beyond 2 seconds.
 
 	To request data from DHT:
-	1) Sent low pulse for > 1~10 ms (MILI SEC)
+	1) Sent low pulse for > 18 ms (MILI SEC)
 	2) Sent high pulse for > 20~40 us (Micros).
 	3) When DHT detects the start signal, it will pull low the bus 80us as response signal,
 	   then the DHT pulls up 80us for preparation to send data.
@@ -155,7 +148,7 @@ uint8_t bitInx = 7;
 
 	// pull down for 3 ms for a smooth and nice wake up
 	gpio_set_level( DHTgpio, 0 );
-	ets_delay_us( 3000 );
+	ets_delay_us( 18000 );
 
 	// pull up for 25 us for a gentile asking for data
 	gpio_set_level( DHTgpio, 1 );
