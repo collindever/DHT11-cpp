@@ -3,7 +3,7 @@
 This is an ESP32 cpp (esp-idf) library for the DHT11 low cost temperature/humidity sensors.
 
 ```
-$ git clone https://github.com/collindever/DHT22-cpp.git
+$ git clone https://github.com/collindever/DHT11-cpp.git
 
 $ make menuconfig and make sure to set Component config->LWIP->recv_bufsize
 $ make
