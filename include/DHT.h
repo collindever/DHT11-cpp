@@ -30,7 +30,7 @@ class DHT {
 		float 	temperature = 0.;
 
 		int 	getSignalLevel( int usTimeOut, bool state );
-
+		float   convertCtoF(float c);
 };
 
 #endif

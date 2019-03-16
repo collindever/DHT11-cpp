@@ -1,6 +1,6 @@
 /*------------------------------------------------------------------------------
-	DHT22 CPP temperature & humidity sensor AM2302 (DHT22) driver for ESP32
-	Jun 2017:	Ricardo Timmermann, new for DHT22
+	DHT11 CPP temperature & humidity sensor DHT11 driver for ESP32
+	Mar 2019:	Collin Dever, new for DHT11
 
 	This example code is in the Public Domain (or CC0 licensed, at your option.)
 	Unless required by applicable law or agreed to in writing, this
@@ -199,21 +199,17 @@ uint8_t bitInx = 7;
 	// == get humidity from Data[0] and Data[1] ==========================
 
 	humidity = dhtData[0];
-	humidity *= 0x100;					// >> 8
-	humidity += dhtData[1];
-	humidity /= 10;						// get the decimal
+	humidity += (dhtData[1] & 0x0f) * 0.1;
 
 	// == get temp from Data[2] and Data[3]
 
-	temperature = dhtData[2] & 0x7F;
-	temperature *= 0x100;				// >> 8
-	temperature += dhtData[3];
-	temperature /= 10;
+	temperature = dhtData[2];
+	temperature += (dhtData[3] & 0x0f) * 0.1;
 
 	if( dhtData[2] & 0x80 ) 			// negative temp, brrr it's freezing
 		temperature *= -1;
 
-
+	temperature = this->convertCtoF(temperature);
 	// == verify if checksum is ok ===========================================
 	// Checksum is the sum of Data 8 bits masked out 0xFF
 
@@ -224,3 +220,6 @@ uint8_t bitInx = 7;
 		return DHT_CHECKSUM_ERROR;
 }
 
+float DHT::convertCtoF(float c) {
+  return c * 1.8 + 32;
+}
